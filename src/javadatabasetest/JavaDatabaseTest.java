@@ -24,12 +24,11 @@ public class JavaDatabaseTest {
     Statement myStat = null;
     ResultSet rs = null;
     
-    String user = "root";
-    String pass = "reliable";
+     
         
         try{
-           // Class.forName("com.mysql.jdbc.Driver");
-           myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Restaurant Managenment System", user, pass);
+           Class.forName("org.sqlite.JDBC");
+           myConn = DriverManager.getConnection("jdbc:sqlite:database01.sqlite");
            
            myStat = myConn.createStatement();
            
@@ -44,6 +43,9 @@ public class JavaDatabaseTest {
         catch(Exception e){
             e.printStackTrace();
         }
+        LoginForm lf = new LoginForm();
+        lf.setVisible(true);
+        
         
     }
     
