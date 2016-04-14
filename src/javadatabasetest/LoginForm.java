@@ -149,51 +149,35 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
-         Connection myConn = null;
-    Statement myStat = null;
-    ResultSet rs = null;
-   
-        try {
-           Class.forName("org.sqlite.JDBC");
-           myConn = DriverManager.getConnection("jdbc:sqlite:database01.sqlite");
-           
-            myStat = myConn.createStatement();
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-           
+           ResultSet rs = null;
         String loginUserName = userNameTextField.getText();
         String loginPassword = new String(passwordField.getPassword());
         
         
         if(customerRadioButton.isSelected()){
-            
+            String password= null;
+                        
              try {
-                rs = myStat.executeQuery("select password from customer where username = '"+loginUserName+"';");
-                if(rs.next()){
-                if(rs.getString("password").equals(loginPassword))
+                password = DataService.getAllCustomers(loginUserName);
+                
+                if(password.equals(loginPassword))
                 {
                     JOptionPane.showMessageDialog(null, "Valid credentials");
                    this.setVisible(false);
-                   OrderWindow orderWindow = new OrderWindow();
+                   OrderWindow1 orderWindow = new OrderWindow1();
                    orderWindow.setVisible(true);
                 }
                 else {
                 JOptionPane.showMessageDialog(null, "Wrong password!" );
                 }
-                }
-                else
-                {
-                         JOptionPane.showMessageDialog(null, "Invalid credentials");
-
-                }
+                
+               
              } catch (SQLException ex) {
                  Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-                 if(rs==null)
+                 if(password==null)
                  JOptionPane.showMessageDialog(null, "Invalid credentials");
+             } catch (Throwable ex) {
+                 Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
              }
         }
         else if(adminRadioButton.isSelected()){

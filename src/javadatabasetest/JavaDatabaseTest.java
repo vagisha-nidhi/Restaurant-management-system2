@@ -8,6 +8,7 @@ package javadatabasetest;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.UIManager;
 /**
  *
  * @author vagisha
@@ -20,29 +21,15 @@ public class JavaDatabaseTest {
     public static void main(String[] args) throws SQLException {
    
         
-    Connection myConn = null;
-    Statement myStat = null;
-    ResultSet rs = null;
+         
+        try { 
+    UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); 
+} catch (Exception ex) { 
+    ex.printStackTrace(); 
+}
     
      
-        
-        try{
-           Class.forName("org.sqlite.JDBC");
-           myConn = DriverManager.getConnection("jdbc:sqlite:database01.sqlite");
-           
-           myStat = myConn.createStatement();
-           
-           rs = myStat.executeQuery("select * from menu;");
-           
-           while(rs.next()){
-            
-               System.out.println(rs.getInt(1) + "," + rs.getString(2));
-           }
-        }
-        
-        catch(Exception e){
-            e.printStackTrace();
-        }
+       
         LoginForm lf = new LoginForm();
         lf.setVisible(true);
         
