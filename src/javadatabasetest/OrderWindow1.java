@@ -58,6 +58,7 @@ public class OrderWindow1 extends javax.swing.JFrame {
             TableModel tb = DataService.UpdateTable(0);
 
             jTable1.setModel(tb);
+            DataService.updateTableHeaders(jTable1);
 
         } catch (SQLException ex) {
             Logger.getLogger(OrderWindow1.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,7 +96,7 @@ public class OrderWindow1 extends javax.swing.JFrame {
         image_label = new javax.swing.JLabel();
         cancelButton = new javax.swing.JButton();
         deleteRowsButton = new javax.swing.JButton();
-        CheckButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -177,7 +178,7 @@ public class OrderWindow1 extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel4)))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jSpinner1, jSpinner2, jSpinner3});
@@ -230,23 +231,23 @@ public class OrderWindow1 extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Item Image"));
 
-        image_label.setText("jLabel5");
+        image_label.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(image_label, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(image_label, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(image_label, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addComponent(image_label, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         cancelButton.setText("Cancel Order");
@@ -263,49 +264,47 @@ public class OrderWindow1 extends javax.swing.JFrame {
             }
         });
 
-        CheckButton.setText("jButton1");
+        jButton1.setText("Place Order");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(CheckButton)
-                        .addGap(130, 130, 130)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(deleteRowsButton)
-                        .addGap(28, 28, 28)
-                        .addComponent(cancelButton)))
-                .addGap(32, 32, 32))
+                    .addComponent(cancelButton)
+                    .addComponent(deleteRowsButton)
+                    .addComponent(jButton1)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelButton, deleteRowsButton, jButton1});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelButton)
-                    .addComponent(deleteRowsButton)
-                    .addComponent(CheckButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(deleteRowsButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(cancelButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         pack();
@@ -325,9 +324,10 @@ public class OrderWindow1 extends javax.swing.JFrame {
 
                 float price = DataService.getPrice(mainCourseComboBox.getSelectedItem().toString(), (Integer) jSpinner1.getValue());
                 System.out.println((Integer) jSpinner1.getValue());
-                DataService.insertInOrderedMenu(order_id + 1, local_id, mainCourseComboBox.getSelectedItem().toString(), price);
+                DataService.insertInOrderedMenu(order_id + 1, local_id, mainCourseComboBox.getSelectedItem().toString(), price, (Integer) jSpinner1.getValue());
                 //rs = DataService.UpdateTable(order_id+1);
                 jTable1.setModel(DataService.UpdateTable(order_id + 1));
+                DataService.updateTableHeaders(jTable1);
 
                 // rs.close();
             } catch (SQLException ex) {
@@ -341,17 +341,19 @@ public class OrderWindow1 extends javax.swing.JFrame {
          int[] selectedRows = jTable1.getSelectedRows();
 
         for (int i = selectedRows.length - 1; i >= 0; i--) {
-            Object seq_num = jTable1.getModel().getValueAt(selectedRows[i], 3);
+            Object seq_num = jTable1.getModel().getValueAt(selectedRows[i], 0);
             System.out.println("Order_id = " + order_id + "  Seq num : " + (int) seq_num);
             DataService.DeleteRows(order_id + 1, (int) seq_num);
         }
         jTable1.setModel(DataService.UpdateTable(order_id + 1));
+        DataService.updateTableHeaders(jTable1);
     }//GEN-LAST:event_deleteRowsButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
          DataService.DeleteRows(order_id + 1);
         jTable1.setModel(DataService.UpdateTable(order_id + 1));
+         DataService.updateTableHeaders(jTable1);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void mainCourseComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainCourseComboBoxActionPerformed
@@ -411,7 +413,6 @@ public class OrderWindow1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CheckButton;
     private javax.swing.JButton addDessertButton;
     private javax.swing.JButton addMainCourseButton;
     private javax.swing.JButton addStarterButton;
@@ -419,6 +420,7 @@ public class OrderWindow1 extends javax.swing.JFrame {
     private javax.swing.JButton deleteRowsButton;
     private javax.swing.JComboBox<String> dessertComboBox;
     private javax.swing.JLabel image_label;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

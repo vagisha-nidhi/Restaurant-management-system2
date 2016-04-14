@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -78,7 +80,7 @@ public class DataService {
 
             myStat = con.createStatement();
             System.out.println("Sqlite busy in Update table");
-            rs = myStat.executeQuery("select * from ordered_menu where order_id = " + order_id + ";");
+            rs = myStat.executeQuery("select sequence_number,product_name,quantity,price from ordered_menu where order_id = " + order_id + ";");
             TableModel tb = DbUtils.resultSetToTableModel(rs);
             return tb;
 
@@ -95,6 +97,19 @@ public class DataService {
             }
         }
         return null;
+    }
+    
+    public static void updateTableHeaders(JTable table){
+        
+        TableColumnModel tcm = table.getColumnModel();
+        tcm.getColumn(0).setHeaderValue("S.No");
+        tcm.getColumn(1).setHeaderValue("Name");
+        tcm.getColumn(2).setHeaderValue("Quantity");
+        tcm.getColumn(3).setHeaderValue("Price");
+        tcm.getColumn(0).setPreferredWidth(40);
+        tcm.getColumn(1).setPreferredWidth(150);
+        tcm.getColumn(2).setPreferredWidth(60);
+        tcm.getColumn(3).setPreferredWidth(70);
     }
 
     public static float getPrice(String product, int qty) throws SQLException {
@@ -123,18 +138,19 @@ public class DataService {
         return 0;
     }
 
-    public static void insertInOrderedMenu(int order_id, int sequence, String product, float price) {
+    public static void insertInOrderedMenu(int order_id, int sequence, String product, float price, int qty) {
         try {
             // myStat = myConn.createStatement();
             System.out.println("Sqlite busy in IIOM");
             Connection con = loadDriver();
             ResultSet rs = null;
             PreparedStatement preparedStatement = null;
-            preparedStatement = con.prepareStatement("Insert into ordered_menu values(?,?,?,?);");
+            preparedStatement = con.prepareStatement("Insert into ordered_menu values(?,?,?,?,?);");
             preparedStatement.setInt(4, sequence);
             preparedStatement.setInt(1, order_id);
             preparedStatement.setString(2, product);
             preparedStatement.setFloat(3, price);
+            preparedStatement.setInt(5, qty);
             int x = preparedStatement.executeUpdate();
             System.out.println("Value of x : " + x);
             //   myStat.executeUpdate("Insert into ordered_menu(order_id,product_name,price) values("+order_id+",'"+product+"',"+price + ");");
