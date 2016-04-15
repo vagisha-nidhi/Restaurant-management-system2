@@ -107,11 +107,44 @@ public class DataService {
         return null;
 
     }
+    public static void updateIntoMenuForAdmin(String name, float unitPrice, String category, String cuisine, String image_url,int id){
+     
+                try {
+            // myStat = myConn.createStatement();
+            System.out.println("Sqlite busy in updateIntoMenuForAdmin");
+            Connection con = loadDriver();
+            ResultSet rs = null;
+            PreparedStatement preparedStatement = null;
+            preparedStatement = con.prepareStatement("update menu set product_name = ?,unit_price = ?,category = ?,image_url = ?,cuisine = ? where product_id = ?");
+            preparedStatement.setString(1, name);
+            preparedStatement.setFloat(2,unitPrice);
+            preparedStatement.setString(3, category);
+            preparedStatement.setString(4, image_url);
+            preparedStatement.setString(5, cuisine);
+            preparedStatement.setInt(6, id);
+            int x = preparedStatement.executeUpdate();
+            System.out.println("Value of x : " + x);
+            //   myStat.executeUpdate("Insert into ordered_menu(order_id,product_name,price) values("+order_id+",'"+product+"',"+price + ");");
+            con.commit();
+
+        } catch (Exception e) {
+            System.out.println("Insert exception : " + e);
+        } finally {
+            try {
+                con.close();
+                System.out.println("Sqlite freed in updateIntoMenuForAdmin");
+
+            } catch (Exception e) {
+            }
+        }
+    
+    }
+    
     public static void insertIntoMenuForAdmin(String name, float unitPrice, String category, String cuisine, String image_url){
     
                 try {
             // myStat = myConn.createStatement();
-            System.out.println("Sqlite busy in IIOM");
+            System.out.println("Sqlite busy in insertIntoMenuForAdmin");
             Connection con = loadDriver();
             ResultSet rs = null;
             PreparedStatement preparedStatement = null;
@@ -131,7 +164,7 @@ public class DataService {
         } finally {
             try {
                 con.close();
-                System.out.println("Sqlite freed in InsertInOrderedMenu");
+                System.out.println("Sqlite freed in InsertInMenuForAdmin");
 
             } catch (Exception e) {
             }

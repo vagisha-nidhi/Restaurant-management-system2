@@ -33,6 +33,7 @@ public class AdminManager1 extends javax.swing.JFrame {
         DefaultCellEditor editor = new DefaultCellEditor(tf);
         menuTable.setDefaultEditor(Object.class, editor);
         menuTable.setModel(DataService.getTableModelForMenuItemsAdmin('a', null));
+       
         
         ArrayList<String> categoryList = new ArrayList<>();
             categoryList = DataService.getCategoryOrCuisine(1);
@@ -100,7 +101,7 @@ public class AdminManager1 extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
         categoryComboBox = new javax.swing.JComboBox<>();
@@ -282,7 +283,12 @@ public class AdminManager1 extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Edit");
+        editButton.setText("Edit");
+        editButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Image : ");
 
@@ -336,7 +342,7 @@ public class AdminManager1 extends javax.swing.JFrame {
                                     .addGap(12, 12, 12)))
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(clearButton, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(editButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
@@ -374,7 +380,7 @@ public class AdminManager1 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton2)
-                            .addComponent(jButton3))
+                            .addComponent(editButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(deleteButton)
@@ -437,6 +443,8 @@ public class AdminManager1 extends javax.swing.JFrame {
         } 
 //        jList1.setModel(lm);
          jList1.setListData(listData);
+         menuTable.setModel(DataService.getTableModelForMenuItemsAdmin('a', null));
+
     }//GEN-LAST:event_categoryRadioButtonActionPerformed
 
     private void cuisineRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuisineRadioButtonActionPerformed
@@ -456,6 +464,8 @@ public class AdminManager1 extends javax.swing.JFrame {
         } 
 //        jList1.setModel(lm);
          jList1.setListData(listData);
+         menuTable.setModel(DataService.getTableModelForMenuItemsAdmin('a', null));
+
     }//GEN-LAST:event_cuisineRadioButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -516,6 +526,18 @@ public class AdminManager1 extends javax.swing.JFrame {
         menuTable.setModel(DataService.getTableModelForMenuItemsAdmin('a', null));
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        // TODO add your handling code here:
+        DataService.updateIntoMenuForAdmin(jTextField2.getText(), Float.parseFloat(jTextField3.getText()), categoryComboBox.getSelectedItem().toString(), cuisineComboBox.getSelectedItem().toString(), jTextField6.getText(), Integer.parseInt(jTextField1.getText()));
+        if(categoryRadioButton.isSelected()){
+           menuTable.setModel(DataService.getTableModelForMenuItemsAdmin('b', jList1.getSelectedValue()));
+       }else if(cuisineRadioButton.isSelected()){
+           menuTable.setModel(DataService.getTableModelForMenuItemsAdmin('c', jList1.getSelectedValue()));
+       }else{
+            menuTable.setModel(DataService.getTableModelForMenuItemsAdmin('a', null));
+       }
+    }//GEN-LAST:event_editButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -559,9 +581,9 @@ public class AdminManager1 extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cuisineComboBox;
     private javax.swing.JRadioButton cuisineRadioButton;
     private javax.swing.JButton deleteButton;
+    private javax.swing.JButton editButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
