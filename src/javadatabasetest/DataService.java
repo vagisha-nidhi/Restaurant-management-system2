@@ -40,38 +40,135 @@ public class DataService {
         return con;
     }
     
-    public static ArrayList<String> getListItemNamesForAdmin(char x){
-        
-        ArrayList<String> list = new ArrayList<>();
-            Connection con = null;
+    public static ArrayList<String> getCategoryOrCuisine(int x){
+         try {
+            Connection con = loadDriver();
             ResultSet rs = null;
             Statement myStat = null;
+            ArrayList<String> list = new ArrayList<>();
+            myStat = con.createStatement();
+            if(x == 1)
+            rs = myStat.executeQuery("select distinct categoryName from category_list;");
+            else if(x == 2)
+                rs = myStat.executeQuery("select distinct cuisineName from cuisine_list;");
+            System.out.println("Sqlite busy in getCategoryOrCuisine");
+
+            while (rs.next()) {
+                list.add(rs.getString(1));
+            }
+            return list;
+
+        } catch (Exception e) {
+        } finally {
+            try {
+                con.close();
+                System.out.println("Sqlite freed in getCAtegoryOrCuisine");
+            } catch (Exception e) {
+            }
+        }
+
+        return null;
+    }
+
+    public static TableModel getTableModelForMenuItemsAdmin(char x, String listItem) {
+
+        Connection con = null;
+        ResultSet rs = null;
+        Statement myStat = null;
         try {
-            
-            
             con = loadDriver();
-            if(x == 'a'){
-                
+            myStat = con.createStatement();
+
+            if (x == 'a') {
+                rs = myStat.executeQuery("select * from menu");
+                TableModel tb = DbUtils.resultSetToTableModel(rs);
+                return tb;
+            } else if (x == 'b') {
+                rs = myStat.executeQuery("select * from menu where category = '" + listItem + "';");
+                TableModel tb = DbUtils.resultSetToTableModel(rs);
+                return tb;
+            } else if (x == 'c') {
+                rs = myStat.executeQuery("select * from menu where cuisine = '" + listItem + "';");
+                TableModel tb = DbUtils.resultSetToTableModel(rs);
+                return tb;
             }
-            else if(x=='b'){
-                myStat = con.createStatement();
-                rs = myStat.executeQuery("select distinct category from menu;");
-                while(rs.next()){
-                    list.add(rs.getString(1));
-                    System.out.println("In Data Service : "+ rs.getString("category"));
-                }
-            }else if(x=='c'){
-                myStat = con.createStatement();
-                rs = myStat.executeQuery("select distinct cuisine from menu;");
-                while(rs.next()){
-                    list.add(rs.getString(1));
-                }
-                        return list;
-            }
-            
         } catch (SQLException ex) {
             Logger.getLogger(DataService.class.getName()).log(Level.SEVERE, null, ex);
         }finally {
+            try {
+                //  con.close();
+                rs.close();
+                myStat.close();
+                con.close();
+                System.out.println("Sqlite freed in Update table");
+            } catch (Exception e) {
+            }
+        }
+        return null;
+
+    }
+    public static void insertIntoMenuForAdmin(String name, float unitPrice, String category, String cuisine, String image_url){
+    
+                try {
+            // myStat = myConn.createStatement();
+            System.out.println("Sqlite busy in IIOM");
+            Connection con = loadDriver();
+            ResultSet rs = null;
+            PreparedStatement preparedStatement = null;
+            preparedStatement = con.prepareStatement("Insert into menu(product_name,unit_price,category,image_url,cuisine) values(?,?,?,?,?);");
+            preparedStatement.setString(1, name);
+            preparedStatement.setFloat(2,unitPrice);
+            preparedStatement.setString(3, category);
+            preparedStatement.setString(4, image_url);
+            preparedStatement.setString(5, cuisine);
+            int x = preparedStatement.executeUpdate();
+            System.out.println("Value of x : " + x);
+            //   myStat.executeUpdate("Insert into ordered_menu(order_id,product_name,price) values("+order_id+",'"+product+"',"+price + ");");
+            con.commit();
+
+        } catch (Exception e) {
+            System.out.println("Insert exception : " + e);
+        } finally {
+            try {
+                con.close();
+                System.out.println("Sqlite freed in InsertInOrderedMenu");
+
+            } catch (Exception e) {
+            }
+        }
+        
+    }
+
+    public static ArrayList<String> getListItemNamesForAdmin(char x) {
+
+        ArrayList<String> list = new ArrayList<>();
+        Connection con = null;
+        ResultSet rs = null;
+        Statement myStat = null;
+        try {
+
+            con = loadDriver();
+            if (x == 'a') {
+
+            } else if (x == 'b') {
+                myStat = con.createStatement();
+                rs = myStat.executeQuery("select distinct category from menu;");
+                while (rs.next()) {
+                    list.add(rs.getString(1));
+                    System.out.println("In Data Service : " + rs.getString("category"));
+                }
+            } else if (x == 'c') {
+                myStat = con.createStatement();
+                rs = myStat.executeQuery("select distinct cuisine from menu;");
+                while (rs.next()) {
+                    list.add(rs.getString(1));
+                }
+                return list;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DataService.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
             try {
                 con.close();
                 System.out.println("Sqlite freed in getAllMainCourse");
@@ -79,25 +176,25 @@ public class DataService {
             }
         }
         return list;
-    }    
+    }
 
-    public static ArrayList<MenuItem> getAllMainCourse() throws SQLException {
+    public static ArrayList<String> getCategoryWiseMenuItemName(int category) throws SQLException {
         try {
             Connection con = loadDriver();
             ResultSet rs = null;
             Statement myStat = null;
-            ArrayList<MenuItem> list = new ArrayList<>();
+            ArrayList<String> list = new ArrayList<>();
             myStat = con.createStatement();
-
-            rs = myStat.executeQuery("select * from menu where category='main_course';");
+            if(category == 1)
+            rs = myStat.executeQuery("select product_name from menu where category='Main Course';");
+            else if(category == 2)
+                rs = myStat.executeQuery("select product_name from menu where category='Starter';");
+            else
+                rs = myStat.executeQuery("select product_name from menu where category='Dessert';");
             System.out.println("Sqlite busy in getAllMainCourse");
 
             while (rs.next()) {
-                MenuItem tempObject = new MenuItem();
-                tempObject.setItem_name(rs.getString("product_name"));
-                tempObject.setItem_unit_price(rs.getFloat("unit_price"));
-                //System.out.println(tempObject.getItem_name().toString());
-                list.add(tempObject);
+                list.add(rs.getString(1));
             }
             return list;
 
@@ -139,9 +236,9 @@ public class DataService {
         }
         return null;
     }
-    
-    public static void updateTableHeaders(JTable table){
-        
+
+    public static void updateTableHeaders(JTable table) {
+
         TableColumnModel tcm = table.getColumnModel();
         tcm.getColumn(0).setHeaderValue("S.No");
         tcm.getColumn(1).setHeaderValue("Name");
@@ -259,6 +356,27 @@ public class DataService {
         }
 
     }
+    public static void deleteRowsInMenuForAdmin(int menuId){
+            try {
+            Connection con = loadDriver();
+
+            // ResultSet rs = null;
+            Statement myStat = null;
+            myStat = con.createStatement();
+            myStat.executeUpdate("delete from menu where product_id = " + menuId);
+        } catch (SQLException ex) {
+            System.out.println("Sqlite exception in DeleteRowsInMenuForAdmin");
+            Logger.getLogger(DataService.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                System.out.println("Sqlite freed in DeleteRowsInMenuForAdmin");
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        
+    }
+    
 
     public static void DeleteRows(int order_id) {
 

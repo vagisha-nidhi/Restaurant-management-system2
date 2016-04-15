@@ -49,12 +49,24 @@ public class OrderWindow1 extends javax.swing.JFrame {
             mainCourseComboBox.addItem("-None Selected-");
             starterComboBox.addItem("-None Selected-");
             dessertComboBox.addItem("-None Selected-");
-            ArrayList<MenuItem> mainCourseList = new ArrayList<>();
-            mainCourseList = DataService.getAllMainCourse();
+            ArrayList<String> mainCourseList = new ArrayList<>();
+            mainCourseList = DataService.getCategoryWiseMenuItemName(1);
 
             for (int i = 0; i < mainCourseList.size(); i++) {
                 // System.out.println(mainCourseList.get(i).getItem_name());
-                mainCourseComboBox.addItem(mainCourseList.get(i).getItem_name());
+                mainCourseComboBox.addItem(mainCourseList.get(i));
+            }
+            ArrayList<String> starterList = new ArrayList<>();
+            starterList = DataService.getCategoryWiseMenuItemName(2);
+             for (int i = 0; i < starterList.size(); i++) {
+                // System.out.println(mainCourseList.get(i).getItem_name());
+                starterComboBox.addItem(starterList.get(i));
+            }
+              ArrayList<String> dessertList = new ArrayList<>();
+            dessertList = DataService.getCategoryWiseMenuItemName(2);
+             for (int i = 0; i < dessertList.size(); i++) {
+                // System.out.println(mainCourseList.get(i).getItem_name());
+                dessertComboBox.addItem(dessertList.get(i));
             }
 
             TableModel tb = DataService.UpdateTable(0);
@@ -380,10 +392,24 @@ public class OrderWindow1 extends javax.swing.JFrame {
 
     private void starterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_starterComboBoxActionPerformed
         // TODO add your handling code here:
+        if (starterComboBox.getSelectedIndex() > 0) {
+
+            //  JOptionPane.showMessageDialog(null, mainCourseComboBox.getSelectedItem().toString() + " Selected");
+            String url = DataService.getImageUrl(starterComboBox.getSelectedItem().toString());
+            System.out.println(PATH + url);
+            image_label.setIcon(new javax.swing.ImageIcon(getClass().getResource(PATH + url)));
+        }
     }//GEN-LAST:event_starterComboBoxActionPerformed
 
     private void dessertComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dessertComboBoxActionPerformed
         // TODO add your handling code here:
+         if (dessertComboBox.getSelectedIndex() > 0) {
+
+            //  JOptionPane.showMessageDialog(null, mainCourseComboBox.getSelectedItem().toString() + " Selected");
+            String url = DataService.getImageUrl(dessertComboBox.getSelectedItem().toString());
+            System.out.println(PATH + url);
+            image_label.setIcon(new javax.swing.ImageIcon(getClass().getResource(PATH + url)));
+        }
     }//GEN-LAST:event_dessertComboBoxActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
