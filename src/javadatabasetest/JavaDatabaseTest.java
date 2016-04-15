@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
+import javax.swing.plaf.synth.SynthLookAndFeel;
 /**
  *
  * @author vagisha
@@ -24,6 +25,7 @@ public class JavaDatabaseTest {
          
         try { 
     UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); 
+    //  UIManager.setLookAndFeel(new SynthLookAndFeel());
 } catch (Exception ex) { 
     ex.printStackTrace(); 
 }

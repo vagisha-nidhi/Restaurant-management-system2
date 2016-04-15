@@ -39,6 +39,47 @@ public class DataService {
         con = DriverManager.getConnection(ConnectionString);
         return con;
     }
+    
+    public static ArrayList<String> getListItemNamesForAdmin(char x){
+        
+        ArrayList<String> list = new ArrayList<>();
+            Connection con = null;
+            ResultSet rs = null;
+            Statement myStat = null;
+        try {
+            
+            
+            con = loadDriver();
+            if(x == 'a'){
+                
+            }
+            else if(x=='b'){
+                myStat = con.createStatement();
+                rs = myStat.executeQuery("select distinct category from menu;");
+                while(rs.next()){
+                    list.add(rs.getString(1));
+                    System.out.println("In Data Service : "+ rs.getString("category"));
+                }
+            }else if(x=='c'){
+                myStat = con.createStatement();
+                rs = myStat.executeQuery("select distinct cuisine from menu;");
+                while(rs.next()){
+                    list.add(rs.getString(1));
+                }
+                        return list;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DataService.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            try {
+                con.close();
+                System.out.println("Sqlite freed in getAllMainCourse");
+            } catch (Exception e) {
+            }
+        }
+        return list;
+    }    
 
     public static ArrayList<MenuItem> getAllMainCourse() throws SQLException {
         try {
