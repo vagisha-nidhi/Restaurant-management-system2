@@ -41,6 +41,8 @@ public class OrderWindow1 extends javax.swing.JFrame {
         starterComboBox.removeAllItems();
         dessertComboBox.removeAllItems();
         jTable1.setRowSelectionAllowed(true);
+        itemList.setListData(new String[0]);
+        cuisineComboBox.removeAllItems();
         //  jTable1.setEnabled(false);
         JTextField tf = new JTextField();
         tf.setEditable(false);
@@ -67,6 +69,7 @@ public class OrderWindow1 extends javax.swing.JFrame {
             mainCourseComboBox.addItem("-None Selected-");
             starterComboBox.addItem("-None Selected-");
             dessertComboBox.addItem("-None Selected-");
+            cuisineComboBox.addItem("-None Selected-");
             ArrayList<String> mainCourseList = new ArrayList<>();
             mainCourseList = DataService.getCategoryWiseMenuItemName(1);
 
@@ -81,10 +84,16 @@ public class OrderWindow1 extends javax.swing.JFrame {
                 starterComboBox.addItem(starterList.get(i));
             }
               ArrayList<String> dessertList = new ArrayList<>();
-            dessertList = DataService.getCategoryWiseMenuItemName(2);
+            dessertList = DataService.getCategoryWiseMenuItemName(3);
              for (int i = 0; i < dessertList.size(); i++) {
                 // System.out.println(mainCourseList.get(i).getItem_name());
                 dessertComboBox.addItem(dessertList.get(i));
+            }
+             ArrayList<String> cuisineList = new ArrayList<>();
+            cuisineList = DataService.getCategoryOrCuisine(2);
+             for (int i = 0; i < cuisineList.size(); i++) {
+                // System.out.println(mainCourseList.get(i).getItem_name());
+                cuisineComboBox.addItem(cuisineList.get(i));
             }
 
             TableModel tb = DataService.UpdateTable(0);
@@ -113,7 +122,6 @@ public class OrderWindow1 extends javax.swing.JFrame {
         image_label = new javax.swing.JLabel();
         cancelButton = new javax.swing.JButton();
         deleteRowsButton = new javax.swing.JButton();
-        placeOrderButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         mainCourseComboBox = new javax.swing.JComboBox<>();
@@ -133,16 +141,21 @@ public class OrderWindow1 extends javax.swing.JFrame {
         priceMainCourseTextField = new javax.swing.JTextField();
         priceStarterTextField = new javax.swing.JTextField();
         priceDessertTextField = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        addStarterButton = new javax.swing.JButton();
+        adddDessertButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         cuisineComboBox = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         itemList = new javax.swing.JList<>();
         jSpinner4 = new javax.swing.JSpinner();
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        addButtonByCuisine = new javax.swing.JButton();
+        priceTextFieldByCuisine = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        finalAmtET = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        placeOrderButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -177,15 +190,15 @@ public class OrderWindow1 extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(image_label, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addComponent(image_label, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(image_label, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addComponent(image_label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         cancelButton.setText("Cancel Order");
@@ -202,14 +215,7 @@ public class OrderWindow1 extends javax.swing.JFrame {
             }
         });
 
-        placeOrderButton.setText("Place Order");
-        placeOrderButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                placeOrderButtonActionPerformed(evt);
-            }
-        });
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Menu Items"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         mainCourseComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         mainCourseComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -266,9 +272,19 @@ public class OrderWindow1 extends javax.swing.JFrame {
 
         priceDessertTextField.setEditable(false);
 
-        jButton2.setText("jButton2");
+        addStarterButton.setText("Add");
+        addStarterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStarterButtonActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("jButton3");
+        adddDessertButton.setText("Add");
+        adddDessertButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adddDessertButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -303,8 +319,8 @@ public class OrderWindow1 extends javax.swing.JFrame {
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(priceMainCourseTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(addStarterButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(adddDessertButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(99, 99, 99))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
@@ -322,10 +338,11 @@ public class OrderWindow1 extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(mainCourseComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(priceMainCourseTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(mainCourseComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(priceMainCourseTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(93, 93, 93)
@@ -341,16 +358,16 @@ public class OrderWindow1 extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(starterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel10)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(starterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(41, 41, 41)
                                 .addComponent(priceStarterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
+                            .addComponent(addStarterButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -361,7 +378,7 @@ public class OrderWindow1 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3))
+                            .addComponent(adddDessertButton))
                         .addGap(30, 30, 30))))
         );
 
@@ -369,20 +386,48 @@ public class OrderWindow1 extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("By Category", jPanel1);
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
         cuisineComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cuisineComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cuisineComboBoxItemStateChanged(evt);
+            }
+        });
+        cuisineComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cuisineComboBoxActionPerformed(evt);
+            }
+        });
 
         itemList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        itemList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                itemListValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(itemList);
 
-        jButton1.setText("Add");
+        jSpinner4.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner4StateChanged(evt);
+            }
+        });
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        addButtonByCuisine.setText("Add");
+        addButtonByCuisine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                addButtonByCuisineActionPerformed(evt);
+            }
+        });
+
+        priceTextFieldByCuisine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                priceTextFieldByCuisineActionPerformed(evt);
             }
         });
 
@@ -395,17 +440,17 @@ public class OrderWindow1 extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cuisineComboBox, 0, 184, Short.MAX_VALUE)
+                    .addComponent(cuisineComboBox, 0, 168, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
-                .addGap(32, 32, 32)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(priceTextFieldByCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSpinner4)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(64, Short.MAX_VALUE))
+                    .addComponent(addButtonByCuisine, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(62, 62, 62))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -417,16 +462,64 @@ public class OrderWindow1 extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(priceTextFieldByCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
-                .addContainerGap(67, Short.MAX_VALUE))
+                        .addComponent(addButtonByCuisine)))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("By Cuisine Type", jPanel3);
+
+        jPanel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel6.setText("Final Amount ");
+
+        placeOrderButton.setText("Place Order");
+        placeOrderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                placeOrderButtonActionPerformed(evt);
+            }
+        });
+
+        backButton.setText("Back ");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(finalAmtET, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(backButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(placeOrderButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addComponent(finalAmtET, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(placeOrderButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(backButton)
+                .addGap(30, 30, 30))
+        );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {finalAmtET, jLabel6});
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -442,42 +535,36 @@ public class OrderWindow1 extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(deleteRowsButton)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cancelButton)
-                    .addComponent(placeOrderButton))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(deleteRowsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelButton, deleteRowsButton, placeOrderButton});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(deleteRowsButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(cancelButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(placeOrderButton)
-                        .addGap(120, 120, 120))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(deleteRowsButton)
+                            .addComponent(cancelButton)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
@@ -489,6 +576,7 @@ public class OrderWindow1 extends javax.swing.JFrame {
         if (mainCourseComboBox.getSelectedIndex() != 0) {
             try {
                 // TODO add your handling code here:
+                isOrderPlaced = false;
 
                 ResultSet rs = null;
                 local_id = local_id + 1;
@@ -501,6 +589,7 @@ public class OrderWindow1 extends javax.swing.JFrame {
                 //rs = DataService.UpdateTable(order_id+1);
                 jTable1.setModel(DataService.UpdateTable(order_id + 1));
                 DataService.updateTableHeaders(jTable1);
+                finalAmtET.setText(Float.toString(DataService.getFinalPrice(order_id+1)));
 
                 // rs.close();
             } catch (SQLException ex) {
@@ -520,6 +609,7 @@ public class OrderWindow1 extends javax.swing.JFrame {
         }
         jTable1.setModel(DataService.UpdateTable(order_id + 1));
         DataService.updateTableHeaders(jTable1);
+        finalAmtET.setText(Float.toString(DataService.getFinalPrice(order_id+1)));
     }//GEN-LAST:event_deleteRowsButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -527,11 +617,14 @@ public class OrderWindow1 extends javax.swing.JFrame {
         DataService.DeleteRows(order_id + 1);
         jTable1.setModel(DataService.UpdateTable(order_id + 1));
         DataService.updateTableHeaders(jTable1);
+        finalAmtET.setText(Float.toString(DataService.getFinalPrice(order_id+1)));
+         isOrderPlaced = false;
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void mainCourseComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainCourseComboBoxActionPerformed
         // TODO add your handling code here:
         if (mainCourseComboBox.getSelectedIndex() > 0) {
+            
             jSpinner1.setValue(1);
             //  JOptionPane.showMessageDialog(null, mainCourseComboBox.getSelectedItem().toString() + " Selected");
             String url = DataService.getImageUrl(mainCourseComboBox.getSelectedItem().toString());
@@ -597,11 +690,30 @@ public class OrderWindow1 extends javax.swing.JFrame {
     private void placeOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderButtonActionPerformed
         // TODO add your handling code here:
         isOrderPlaced = true;
+        float price = DataService.getFinalPrice(order_id+1);
+        DataService.insertIntoOrderDetails(order_id+1, price);
+        JOptionPane.showMessageDialog(null, "Order Placed");
+        order_id = order_id + 1;
+        jTable1.setModel(DataService.UpdateTable(order_id + 1));
+            DataService.updateTableHeaders(jTable1);
+        mainCourseComboBox.setSelectedIndex(0);
+        starterComboBox.setSelectedIndex(0);
+        dessertComboBox.setSelectedIndex(0);
+        jSpinner1.setValue(1);
+        jSpinner2.setValue(1);
+        jSpinner3.setValue(1);
+        jSpinner4.setValue(1);
+        finalAmtET.setText("");
+        priceMainCourseTextField.setText("");
+        priceStarterTextField.setText("");
+        priceDessertTextField.setText("");
+        
+        
     }//GEN-LAST:event_placeOrderButtonActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void priceTextFieldByCuisineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceTextFieldByCuisineActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_priceTextFieldByCuisineActionPerformed
 
     private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
        
@@ -616,6 +728,151 @@ public class OrderWindow1 extends javax.swing.JFrame {
         }
         }
     }//GEN-LAST:event_jSpinner1StateChanged
+
+    private void itemListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_itemListValueChanged
+        // TODO add your handling code here:
+        jSpinner4.setValue(1);
+         String url = DataService.getImageUrl(itemList.getSelectedValue());
+            System.out.println(PATH + url);
+            image_label.setIcon(new javax.swing.ImageIcon(getClass().getResource(PATH + url)));
+             float price;
+            try {
+                price = DataService.getPrice(itemList.getSelectedValue(), (Integer) jSpinner4.getValue());
+                priceTextFieldByCuisine.setText(price +"");
+            } catch (SQLException ex) {
+                Logger.getLogger(OrderWindow1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }//GEN-LAST:event_itemListValueChanged
+
+    private void jSpinner4StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner4StateChanged
+        // TODO add your handling code here:
+        if(itemList.getSelectedIndex()>=0){
+        try {
+            // TODO add your handling code here:
+            
+            float price = DataService.getPrice(itemList.getSelectedValue(), (Integer) jSpinner4.getValue());
+            priceTextFieldByCuisine.setText(price +"");
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderWindow1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+    }//GEN-LAST:event_jSpinner4StateChanged
+
+    private void cuisineComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuisineComboBoxActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cuisineComboBoxActionPerformed
+
+    private void addButtonByCuisineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonByCuisineActionPerformed
+        // TODO add your handling code here:
+        if(itemList.getSelectedIndex()>=0){
+            try {
+                 isOrderPlaced = false;
+                ResultSet rs = null;
+                local_id = local_id + 1;
+
+                order_id = DataService.getLastOrder();
+                float price = DataService.getPrice(itemList.getSelectedValue(), (Integer) jSpinner4.getValue());
+                DataService.insertInOrderedMenu(order_id + 1, local_id, itemList.getSelectedValue(), price, (Integer) jSpinner4.getValue());
+                //rs = DataService.UpdateTable(order_id+1);
+                jTable1.setModel(DataService.UpdateTable(order_id + 1));
+                DataService.updateTableHeaders(jTable1);
+                finalAmtET.setText(Float.toString(DataService.getFinalPrice(order_id+1)));
+            } catch (SQLException ex) {
+                Logger.getLogger(OrderWindow1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+                
+    }//GEN-LAST:event_addButtonByCuisineActionPerformed
+
+    private void addStarterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStarterButtonActionPerformed
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+        if (starterComboBox.getSelectedIndex() != 0) {
+            try {
+                // TODO add your handling code here:
+ isOrderPlaced = false;
+               // ResultSet rs = null;
+                local_id = local_id + 1;
+
+                order_id = DataService.getLastOrder();
+
+                float price = DataService.getPrice(starterComboBox.getSelectedItem().toString(), (Integer) jSpinner2.getValue());
+                System.out.println((Integer) jSpinner2.getValue());
+                DataService.insertInOrderedMenu(order_id + 1, local_id, starterComboBox.getSelectedItem().toString(), price, (Integer) jSpinner2.getValue());
+                //rs = DataService.UpdateTable(order_id+1);
+                jTable1.setModel(DataService.UpdateTable(order_id + 1));
+                DataService.updateTableHeaders(jTable1);
+                finalAmtET.setText(Float.toString(DataService.getFinalPrice(order_id+1)));
+
+                // rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(OrderWindow1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_addStarterButtonActionPerformed
+
+    private void adddDessertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adddDessertButtonActionPerformed
+        // TODO add your handling code here:
+         // TODO add your handling code here:
+        if (dessertComboBox.getSelectedIndex() != 0) {
+            try {
+                // TODO add your handling code here:
+ isOrderPlaced = false;
+               // ResultSet rs = null;
+                local_id = local_id + 1;
+
+                order_id = DataService.getLastOrder();
+
+                float price = DataService.getPrice(dessertComboBox.getSelectedItem().toString(), (Integer) jSpinner3.getValue());
+                System.out.println((Integer) jSpinner2.getValue());
+                DataService.insertInOrderedMenu(order_id + 1, local_id, dessertComboBox.getSelectedItem().toString(), price, (Integer) jSpinner3.getValue());
+                //rs = DataService.UpdateTable(order_id+1);
+                jTable1.setModel(DataService.UpdateTable(order_id + 1));
+                DataService.updateTableHeaders(jTable1);
+                finalAmtET.setText(Float.toString(DataService.getFinalPrice(order_id+1)));
+
+                // rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(OrderWindow1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_adddDessertButtonActionPerformed
+
+    private void cuisineComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cuisineComboBoxItemStateChanged
+        // TODO add your handling code here:
+        priceTextFieldByCuisine.setText("");
+        itemList.clearSelection();
+        
+        if(cuisineComboBox.getSelectedIndex()>0){
+         ArrayList<String> list = new ArrayList<>();
+        list = DataService.getListByCuisine(cuisineComboBox.getSelectedItem().toString());
+        
+        int len = list.size()+1;
+        System.out.println("Cuisine selected : " + cuisineComboBox.getSelectedItem().toString()+ "  len = "+ len);
+        String[] listData = new String[len];
+        
+         for(int i=0;i<list.size(); i++){
+            listData[i]= list.get(i);
+             System.out.println(list.get(i));
+        }
+         
+         itemList.setListData(listData);
+         jSpinner4.setValue(1);
+        }
+    }//GEN-LAST:event_cuisineComboBoxItemStateChanged
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        // TODO add your handling code here:
+        if (isOrderPlaced == false) {
+            DataService.DeleteRows(order_id + 1);
+            jTable1.setModel(DataService.UpdateTable(order_id + 1));
+            DataService.updateTableHeaders(jTable1);
+        }
+        LoginForm loginForm = new LoginForm();
+        this.setVisible(false);
+        loginForm.setVisible(true);
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -653,16 +910,18 @@ public class OrderWindow1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButtonByCuisine;
     private javax.swing.JButton addMainCourseButton;
+    private javax.swing.JButton addStarterButton;
+    private javax.swing.JButton adddDessertButton;
+    private javax.swing.JButton backButton;
     private javax.swing.JButton cancelButton;
     private javax.swing.JComboBox<String> cuisineComboBox;
     private javax.swing.JButton deleteRowsButton;
     private javax.swing.JComboBox<String> dessertComboBox;
+    private javax.swing.JTextField finalAmtET;
     private javax.swing.JLabel image_label;
     private javax.swing.JList<String> itemList;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -670,6 +929,7 @@ public class OrderWindow1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -677,6 +937,7 @@ public class OrderWindow1 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSpinner jSpinner1;
@@ -685,12 +946,12 @@ public class OrderWindow1 extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JComboBox<String> mainCourseComboBox;
     private javax.swing.JButton placeOrderButton;
     private javax.swing.JTextField priceDessertTextField;
     private javax.swing.JTextField priceMainCourseTextField;
     private javax.swing.JTextField priceStarterTextField;
+    private javax.swing.JTextField priceTextFieldByCuisine;
     private javax.swing.JComboBox<String> starterComboBox;
     // End of variables declaration//GEN-END:variables
 }

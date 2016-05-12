@@ -181,7 +181,16 @@ public class LoginForm extends javax.swing.JFrame {
              }
         }
         else if(adminRadioButton.isSelected()){
-        
+              
+            if(loginUserName.equals("admin") && loginPassword.equals("admin")){  
+                JOptionPane.showMessageDialog(null, "Valid credentials");
+                 AdminManager1 adminManager1 = new AdminManager1();
+                 this.setVisible(false);
+                 adminManager1.setVisible(true);
+                 
+            }
+            else 
+                JOptionPane.showMessageDialog(null, "Invalid credentials");
         }
     }//GEN-LAST:event_submitButtonActionPerformed
 

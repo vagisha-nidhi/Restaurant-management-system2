@@ -69,6 +69,91 @@ public class DataService {
 
         return null;
     }
+    
+     public static ArrayList<String> getListByCuisine(String listItem){
+         Connection con = null;
+        ResultSet rs = null;
+        Statement myStat = null;
+        ArrayList<String> list = new ArrayList<>();
+        try {
+            con = loadDriver();
+            myStat = con.createStatement();
+
+             
+                rs = myStat.executeQuery("select product_name from menu where cuisine = '" + listItem + "';");
+                while (rs.next()) {
+                list.add(rs.getString(1));
+            }
+            return list;
+                
+                
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DataService.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            try {
+                //  con.close();
+                rs.close();
+                myStat.close();
+                con.close();
+                System.out.println("Sqlite freed in Update table");
+            } catch (Exception e) {
+            }
+        }
+        return null;
+
+     
+     }
+     
+    
+     public static Employee getEmpDetails(int id){
+         Connection con = null;
+        ResultSet rs = null;
+        Statement myStat = null;
+        
+        Employee emp = new Employee();
+        try {
+            con = loadDriver();
+            myStat = con.createStatement();
+
+             
+                rs = myStat.executeQuery("select * from employee where id = "+id+";");
+                if (rs.next()) {
+                
+                emp.setName(rs.getString("name"));
+                emp.setCategory(rs.getString("emp_category"));
+                emp.setPhone_no(rs.getInt("phone_no"));
+                emp.setPincode(rs.getInt("pincode"));
+                
+                
+               // list.add(emp);
+            }
+            rs = myStat.executeQuery("select area from employee,emp_city where employee.pincode=emp_city.pincode and employee.id =" + id+";");
+            if(rs.next()){
+              emp.setArea(rs.getString("area"));
+              
+            }
+                
+            return emp;
+                
+                
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DataService.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            try {
+                //  con.close();
+                rs.close();
+                myStat.close();
+                con.close();
+                System.out.println("Sqlite freed in Update table");
+            } catch (Exception e) {
+            }
+        }
+        return null;
+
+     
+     }
 
     public static TableModel getTableModelForMenuItemsAdmin(char x, String listItem) {
 
@@ -101,6 +186,36 @@ public class DataService {
                 myStat.close();
                 con.close();
                 System.out.println("Sqlite freed in Update table");
+            } catch (Exception e) {
+            }
+        }
+        return null;
+
+    }
+    
+    public static TableModel getTableModelForCustomerAdmin() {
+
+        Connection con = null;
+        ResultSet rs = null;
+        Statement myStat = null;
+        try {
+            con = loadDriver();
+            myStat = con.createStatement();
+
+            
+                rs = myStat.executeQuery("select * from customer");
+                TableModel tb = DbUtils.resultSetToTableModel(rs);
+                return tb;
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(DataService.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            try {
+                //  con.close();
+                rs.close();
+                myStat.close();
+                con.close();
+                System.out.println("Sqlite freed in getTableModelForCustomer table");
             } catch (Exception e) {
             }
         }
@@ -140,6 +255,72 @@ public class DataService {
     
     }
     
+    public static void updateIntoCustomerForAdmin(String name, String username, String password, String email, int phone_no){
+    
+                try {
+            // myStat = myConn.createStatement();
+            System.out.println("Sqlite busy in updateIntoCustomerForAdmin");
+            Connection con = loadDriver();
+            ResultSet rs = null;
+            PreparedStatement preparedStatement = null;
+            preparedStatement = con.prepareStatement("update customer set cust_name = ?,username = ?,password = ?,email = ?,phone_no = ? where username = ?;");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2,username);
+            preparedStatement.setString(3, password);
+            preparedStatement.setString(4, email);
+            preparedStatement.setInt(5, phone_no);
+            preparedStatement.setString(6, username);
+            int x = preparedStatement.executeUpdate();
+            System.out.println("Value of x : " + x);
+            //   myStat.executeUpdate("Insert into ordered_menu(order_id,product_name,price) values("+order_id+",'"+product+"',"+price + ");");
+            con.commit();
+
+        } catch (Exception e) {
+            System.out.println("Insert exception : " + e);
+        } finally {
+            try {
+                con.close();
+                System.out.println("Sqlite freed in updateIntoCustomerForAdmin");
+
+            } catch (Exception e) {
+            }
+        }
+    }
+    public static void updateIntoEmployeeForAdmin(int id,String name,  String category, int phone_no, int pincode){
+    
+                try {
+            // myStat = myConn.createStatement();
+            System.out.println("Sqlite busy in updateIntoEmpForAdmin");
+            Connection con = loadDriver();
+            ResultSet rs = null;
+            PreparedStatement preparedStatement = null;
+            preparedStatement = con.prepareStatement("update employee set name = ?,emp_category = ?,phone_no = ?, pincode = ? where id = ?;");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2,category);
+            preparedStatement.setInt(3, phone_no);
+            preparedStatement.setInt(4, pincode);
+            preparedStatement.setInt(5, id);
+          
+            int x = preparedStatement.executeUpdate();
+            System.out.println("Value of x : " + x);
+            //   myStat.executeUpdate("Insert into ordered_menu(order_id,product_name,price) values("+order_id+",'"+product+"',"+price + ");");
+            con.commit();
+
+        } catch (Exception e) {
+            System.out.println("Insert exception : " + e);
+        } finally {
+            try {
+                con.close();
+                System.out.println("Sqlite freed in updateIntoEmpForAdmin");
+
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    
+    
+    
     public static void insertIntoMenuForAdmin(String name, float unitPrice, String category, String cuisine, String image_url){
     
                 try {
@@ -165,6 +346,100 @@ public class DataService {
             try {
                 con.close();
                 System.out.println("Sqlite freed in InsertInMenuForAdmin");
+
+            } catch (Exception e) {
+            }
+        }
+        
+    }
+    public static void insertIntoEmployeeForAdmin(int id, String name,String category, int phone_no, int pincode){
+    
+                try {
+            // myStat = myConn.createStatement();
+            System.out.println("Sqlite busy in insertIntoEmployeeForAdmin");
+            Connection con = loadDriver();
+            ResultSet rs = null;
+            PreparedStatement preparedStatement = null;
+            preparedStatement = con.prepareStatement("Insert into employee(id,phone_no,name,emp_category,pincode) values(?,?,?,?,?);");
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2,phone_no);
+            preparedStatement.setString(3, name);
+            preparedStatement.setString(4, category);
+            preparedStatement.setInt(5,pincode);
+          
+            int x = preparedStatement.executeUpdate();
+            System.out.println("Value of x : " + x);
+            //   myStat.executeUpdate("Insert into ordered_menu(order_id,product_name,price) values("+order_id+",'"+product+"',"+price + ");");
+            con.commit();
+
+        } catch (Exception e) {
+            System.out.println("Insert exception : " + e);
+        } finally {
+            try {
+                con.close();
+                System.out.println("Sqlite freed in InsertIntoEmployeeForAdmin");
+
+            } catch (Exception e) {
+            }
+        }
+        
+    }
+    public static void insertIntoOrderDetails(int order_id, float total_price ){
+    
+                try {
+            // myStat = myConn.createStatement();
+            System.out.println("Sqlite busy in insertIntoEmployeeForAdmin");
+            Connection con = loadDriver();
+            ResultSet rs = null;
+            PreparedStatement preparedStatement = null;
+            preparedStatement = con.prepareStatement("Insert into order_details(order_id,total_price) values(?,?);");
+            preparedStatement.setInt(1, order_id);
+            preparedStatement.setFloat(2,total_price);
+   
+          
+            int x = preparedStatement.executeUpdate();
+            System.out.println("Value of x : " + x);
+            //   myStat.executeUpdate("Insert into ordered_menu(order_id,product_name,price) values("+order_id+",'"+product+"',"+price + ");");
+            con.commit();
+
+        } catch (Exception e) {
+            System.out.println("Insert exception : " + e);
+        } finally {
+            try {
+                con.close();
+                System.out.println("Sqlite freed in InsertIntoEmployeeForAdmin");
+
+            } catch (Exception e) {
+            }
+        }
+        
+    }
+    
+     public static void insertIntoCustomerForAdmin(String name, String username, String password, String email, int phone_no){
+    
+                try {
+            // myStat = myConn.createStatement();
+            System.out.println("Sqlite busy in insertIntocustomerForAdmin");
+            Connection con = loadDriver();
+            ResultSet rs = null;
+            PreparedStatement preparedStatement = null;
+            preparedStatement = con.prepareStatement("Insert into customer values(?,?,?,?,?);");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2,username);
+            preparedStatement.setString(3, password);
+            preparedStatement.setString(4, email);
+            preparedStatement.setInt(5, phone_no);
+            int x = preparedStatement.executeUpdate();
+            System.out.println("Value of x : " + x);
+            //   myStat.executeUpdate("Insert into ordered_menu(order_id,product_name,price) values("+order_id+",'"+product+"',"+price + ");");
+            con.commit();
+
+        } catch (Exception e) {
+            System.out.println("Insert exception : " + e);
+        } finally {
+            try {
+                con.close();
+                System.out.println("Sqlite freed in InsertInCustomerForAdmin");
 
             } catch (Exception e) {
             }
@@ -281,6 +556,22 @@ public class DataService {
         tcm.getColumn(1).setPreferredWidth(150);
         tcm.getColumn(2).setPreferredWidth(60);
         tcm.getColumn(3).setPreferredWidth(70);
+    }
+    public static void updateTableHeadersInCuisines(JTable table) {
+
+        TableColumnModel tcm = table.getColumnModel();
+        tcm.getColumn(0).setHeaderValue("Id");
+        tcm.getColumn(1).setHeaderValue("Name");
+        tcm.getColumn(2).setHeaderValue("Price");
+        tcm.getColumn(3).setHeaderValue("Category");
+        tcm.getColumn(4).setHeaderValue("Image");
+        tcm.getColumn(5).setHeaderValue("Cuisine");
+        tcm.getColumn(0).setPreferredWidth(40);
+        tcm.getColumn(1).setPreferredWidth(150);
+        tcm.getColumn(2).setPreferredWidth(70);
+        tcm.getColumn(3).setPreferredWidth(150);
+        tcm.getColumn(4).setPreferredWidth(150);
+        tcm.getColumn(5).setPreferredWidth(130);
     }
 
     public static float getPrice(String product, int qty) throws SQLException {
@@ -409,7 +700,46 @@ public class DataService {
         }
         
     }
-    
+    public static void deleteRowsInCustomerForAdmin(String userName){
+            try {
+            Connection con = loadDriver();
+
+            // ResultSet rs = null;
+            Statement myStat = null;
+            myStat = con.createStatement();
+            myStat.executeUpdate("delete from customer where username = '" + userName+"'");
+        } catch (SQLException ex) {
+            System.out.println("Sqlite exception in DeleteRowsInCustomerForAdmin");
+            Logger.getLogger(DataService.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                System.out.println("Sqlite freed in DeleteRowsInCustomerForAdmin");
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        
+    }
+     public static void deleteRowsInEmployeeForAdmin(int id){
+            try {
+            Connection con = loadDriver();
+
+            // ResultSet rs = null;
+            Statement myStat = null;
+            myStat = con.createStatement();
+            myStat.executeUpdate("delete from employee where id = " + id +";");
+        } catch (SQLException ex) {
+            System.out.println("Sqlite exception in DeleteRowsInEmployeeForAdmin");
+            Logger.getLogger(DataService.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                System.out.println("Sqlite freed in DeleteRowsInEmployeeForAdmin");
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        
+    }
 
     public static void DeleteRows(int order_id) {
 
@@ -457,6 +787,31 @@ public class DataService {
         }
 
         return null;
+    }
+     public static float getFinalPrice(int order_id){
+         float price = 0;   
+         try {
+            Connection con = loadDriver();
+            ResultSet rs = null;
+
+            // ResultSet rs = null;
+            Statement myStat = null;
+            myStat = con.createStatement();
+            rs = myStat.executeQuery("select sum(price) from ordered_menu where order_id = " + order_id);
+            price = rs.getFloat(1);
+            return price;
+        } catch (SQLException ex) {
+            System.out.println("Sqlite exception in DeleteRowsInMenuForAdmin");
+            Logger.getLogger(DataService.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                System.out.println("Sqlite freed in DeleteRowsInMenuForAdmin");
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+         return price;
+        
     }
 
     public static String getAllCustomers(String loginUserName) throws SQLException {
